@@ -7,8 +7,8 @@ var gulp          = require('gulp'),
 		cleancss      = require('gulp-clean-css'),
 		rename        = require('gulp-rename'),
 		autoprefixer  = require('gulp-autoprefixer'),
-		notify        = require("gulp-notify"),
-		rsync         = require('gulp-rsync');
+		notify        = require("gulp-notify");
+		// rsync         = require('gulp-rsync');
 
 gulp.task('browser-sync', function() {
 	browsersync({
@@ -23,7 +23,7 @@ gulp.task('browser-sync', function() {
 });
 
 gulp.task('sass', function() {
-	return gulp.src('app/sass/**/*.sass')
+	return gulp.src('app/sass/**/*.scss')
 	.pipe(sass({ outputStyle: 'expand' }).on("error", notify.onError()))
 	.pipe(rename({ suffix: '.min', prefix : '' }))
 	.pipe(autoprefixer(['last 15 versions']))
@@ -43,20 +43,20 @@ gulp.task('js', function() {
 	.pipe(browsersync.reload({ stream: true }))
 });
 
-gulp.task('rsync', function() {
-	return gulp.src('app/**')
-	.pipe(rsync({
-		root: 'app/',
-		hostname: 'username@yousite.com',
-		destination: 'yousite/public_html/',
-		// include: ['*.htaccess'], // Includes files to deploy
-		exclude: ['**/Thumbs.db', '**/*.DS_Store'], // Excludes files from deploy
-		recursive: true,
-		archive: true,
-		silent: false,
-		compress: true
-	}))
-});
+// gulp.task('rsync', function() {
+// 	return gulp.src('app/**')
+// 	.pipe(rsync({
+// 		root: 'app/',
+// 		hostname: 'username@yousite.com',
+// 		destination: 'yousite/public_html/',
+// 		// include: ['*.htaccess'], // Includes files to deploy
+// 		exclude: ['**/Thumbs.db', '**/*.DS_Store'], // Excludes files from deploy
+// 		recursive: true,
+// 		archive: true,
+// 		silent: false,
+// 		compress: true
+// 	}))
+// });
 
 gulp.task('watch', ['sass', 'js', 'browser-sync'], function() {
 	gulp.watch('app/sass/**/*.sass', ['sass']);
